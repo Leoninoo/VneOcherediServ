@@ -41,6 +41,7 @@ public class UsersController {
     }
 
     @GetMapping("/users")
+    @ResponseBody
     public List<UserDto> getUsers() {
         return Arrays.asList(
                 new UserDto(0L, "leo"),
