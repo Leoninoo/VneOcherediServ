@@ -16,7 +16,7 @@ public class ProductFactoryVprok implements ProductFactory {
 
     public ProductFactoryVprok(Category category) {
         if(category == null) {
-            URLString = "https://www.vprok.ru/catalog/3547/skidki";
+            URLString = "https://www.vprok.ru/catalog/1301/ovoschi-frukty-griby";
             return;
         }
 
@@ -91,6 +91,8 @@ public class ProductFactoryVprok implements ProductFactory {
         List<Product> products = new ArrayList<>();
 
         try {
+
+
             if(page == null) {
                 document = Jsoup.connect(URLString).get();
             }

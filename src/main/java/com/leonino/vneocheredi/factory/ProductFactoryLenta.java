@@ -87,7 +87,7 @@ public class ProductFactoryLenta implements ProductFactory {
                     return products;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IllegalStateException("MESS");
         }
 
         //Получение списков div

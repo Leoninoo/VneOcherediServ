@@ -28,7 +28,6 @@ public class ProductsController {
     }
 
     @GetMapping("/products")
-    @ResponseBody
     public List<Product> getProducts(@Param("page") Integer page,
                                      @Param("category") Category category,
                                      @Param("shop") String shop) {
