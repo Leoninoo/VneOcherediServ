@@ -31,10 +31,8 @@ public class ProductsController {
     public List<Product> getProducts(@Param("page") Integer page,
                                      @Param("category") Category category,
                                      @Param("shop") String shop) {
-        if(shop.indexOf("vprok") > 0)
-            return productsRepository.findAll(Shop.PEREKRESTOK, page, category);
-        else
-            return productsRepository.findAll(Shop.LENTA, page, category);
+
+        return productsRepository.findAll(Shop.PEREKRESTOK, page, category);
     }
 
     //@GetMapping("/products")
