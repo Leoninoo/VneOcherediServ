@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        Document document = Jsoup.connect("https://www.vprok.ru/catalog/1377/moloko").get();
+
+        Elements elementsHrefs = document.getElementsByClass("xf-product__main-link");
+        System.out.println(elementsHrefs.get(0).attr("abs:href"));
     }
 }

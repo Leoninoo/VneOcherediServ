@@ -29,10 +29,6 @@ public class Application extends WebMvcConfigurerAdapter {
 
 
     public static void main(String[] args) {
-        System.out.println();
-        System.out.println("ANY MESSAGE");
-        System.out.println();
-
         SpringApplication.run(Application.class);
     }
 }

@@ -113,12 +113,14 @@ public class ProductFactoryVprok implements ProductFactory {
         Elements elementsPrice = document.getElementsByClass("xf-price__rouble js-price-rouble");
         Elements elementsImage = document.getElementsByClass("xf-product__picture xf-product-picture");
         Elements elementsIds = document.getElementsByClass("js-catalog-product _additionals xf-catalog__item");
+        Elements elementsHrefs = document.getElementsByClass("xf-product__main-link");
 
         for (long i = 0; i < elementsPrice.size(); i++) {
             products.add(new Product(getId(elementsIds.get((int) i).toString()),
                     elementsName.get((int) i).text(),
                     elementsPrice.get((int) i).text() + " руб",
-                    getImage(elementsImage.get((int) i).toString())));
+                    getImage(elementsImage.get((int) i).toString()),
+                    elementsHrefs.get((int) i).attr("abs:href")));
         }
 
         return products;

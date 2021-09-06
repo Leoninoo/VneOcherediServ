@@ -13,8 +13,8 @@ public class ProductsRepositoryMemory implements ProductsRepository {
     @Override
     public List<Product> findAll(Shop shops, Integer page, Category category) {
         return Arrays.asList(
-                new Product(0L, "Сырок", "25 руб", ""),
-                new Product(1L, "Молоко", "89 руб", "")
+                new Product(0L, "Сырок", "25 руб", "", ""),
+                new Product(1L, "Молоко", "89 руб", "", "")
         );
     }
 }

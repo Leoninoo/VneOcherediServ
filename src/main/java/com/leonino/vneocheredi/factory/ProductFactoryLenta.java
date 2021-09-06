@@ -99,7 +99,8 @@ public class ProductFactoryLenta implements ProductFactory {
             Product p = new Product(i,
                     elementsName.get((int) i).text(),
                     elementsPrice.get((int) i).text() + " руб",
-                    getImage(elementsImage.get((int) i).toString()));
+                    getImage(elementsImage.get((int) i).toString()),
+                    "");
 
             products.add(p);
         }
