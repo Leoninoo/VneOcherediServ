@@ -17,4 +17,9 @@ public class ProductsRepositoryMemory implements ProductsRepository {
                 new Product(1L, "Молоко", "89 руб", "", "")
         );
     }
+
+    @Override
+    public List<Product> findAllByHrefs(String[] hrefs) {
+        return null;
+    }
 }

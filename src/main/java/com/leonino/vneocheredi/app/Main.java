@@ -9,13 +9,18 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Document document = Jsoup.connect("https://www.vprok.ru/catalog/1377/moloko").get();
+        Document document = Jsoup.connect("https://www.vprok.ru/product/parmalat-parmal-moloko-pit-ulster-3-5-1l--306634").get();
 
-        Elements elementsHrefs = document.getElementsByClass("xf-product__main-link");
-        System.out.println(elementsHrefs.get(0).attr("abs:href"));
+        Elements elementsName = document.getElementsByClass("xf-product-new__title js-product__title js-product-new-title");
+        Elements elementsPrice = document.getElementsByClass("js-price-rouble");
+
+
+        System.out.println(elementsName.get(0).text());
+        System.out.println(elementsPrice.get(0).text());
     }
 }

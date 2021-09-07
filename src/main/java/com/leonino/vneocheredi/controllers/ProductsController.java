@@ -10,12 +10,17 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -33,6 +38,14 @@ public class ProductsController {
                                      @Param("shop") String shop) {
 
         return productsRepository.findAll(Shop.PEREKRESTOK, page, category);
+    }
+
+    @GetMapping("/basket")
+    @ResponseBody
+    public List<Product> getBasketProducts(@Param("products") String products) {
+        String[] hrefs = products.split("~~");
+
+        return productsRepository.findAllByHrefs(hrefs);
     }
 
     //@GetMapping("/products")

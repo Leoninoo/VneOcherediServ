@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ProductsRepository {
     List<Product> findAll(Shop shops, Integer page, Category category);
+
+    List<Product> findAllByHrefs(String[] hrefs);
 }
