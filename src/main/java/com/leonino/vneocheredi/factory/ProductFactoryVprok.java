@@ -94,7 +94,10 @@ public class ProductFactoryVprok implements ProductFactory {
 
 
             if(page == null) {
-                document = Jsoup.connect(URLString).get();
+                document = Jsoup.connect(URLString)
+                        .userAgent("Chrome/4.0.249.0 Safari/532.5")
+                        .cookie("region","2")
+                        .get();
             }
             else {
                 document = Jsoup.connect(URLString +
