@@ -114,20 +114,28 @@ public class ProductFactoryVprok implements ProductFactory {
         //Получение списков div
         Elements elementsName = document.getElementsByClass(
                 "xf-product-title__link js-product__title  xf-product-title__link--additional ");
-        Elements elementsPrice = document.getElementsByClass("xf-price__rouble js-price-rouble");
+        Elements elementsPrice = document.getElementsByClass(
+                "xf-price xf-product-cost__current js-product__cost  _highlight");
         Elements elementsImage = document.getElementsByClass("xf-product__picture xf-product-picture");
         Elements elementsIds = document.getElementsByClass("js-catalog-product _additionals xf-catalog__item");
         Elements elementsHrefs = document.getElementsByClass("xf-product__main-link");
 
         for (long i = 0; i < elementsPrice.size(); i++) {
-            products.add(new Product(getId(elementsIds.get((int) i).toString()),
+            products.add(new Product(
+                    getId(elementsIds.get((int) i).toString()),
                     elementsName.get((int) i).text(),
-                    elementsPrice.get((int) i).text() + " руб",
+                    getPrice(elementsPrice.get((int) i).toString()),
                     getImage(elementsImage.get((int) i).toString()),
                     elementsHrefs.get((int) i).attr("abs:href")));
         }
 
         return products;
+    }
+
+    private static String getPrice(String div) {
+        String[] divElements = div.split("\"");
+
+        return divElements[3] + " руб";
     }
 
     private String getImage(String div) {

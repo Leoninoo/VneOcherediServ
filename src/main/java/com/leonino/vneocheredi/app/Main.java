@@ -30,28 +30,21 @@ public class Main {
 
         Elements elementsName = document.getElementsByClass(
                 "xf-product-title__link js-product__title  xf-product-title__link--additional ");
-        Elements elementsPrice = document.getElementsByClass("xf-price__rouble js-price-rouble");
+        Elements elementsPrice = document.getElementsByClass(
+                "xf-price xf-product-cost__current js-product__cost  _highlight");
         Elements elementsImage = document.getElementsByClass("xf-product__picture xf-product-picture");
         Elements elementsIds = document.getElementsByClass("js-catalog-product _additionals xf-catalog__item");
         Elements elementsHrefs = document.getElementsByClass("xf-product__main-link");
 
-        System.out.println();
-        System.out.println();
-        System.out.println();
-
-        System.out.println(elementsName.size());
-        System.out.println(elementsName.size());
-        System.out.println(elementsIds.size());
-        System.out.println(elementsImage.size());
-        System.out.println(elementsHrefs.size());
-
         for (long i = 0; i < elementsPrice.size(); i++) {
-            System.out.println(elementsName.get((int) i).text());
+            System.out.println(getPrice(elementsPrice.get((int) i).toString()));
         }
+    }
 
-        System.out.println();
-        System.out.println();
-        System.out.println();
+    private static String getPrice(String div) {
+        String[] divElements = div.split("\"");
+
+        return divElements[3] + " руб";
     }
 
     private static String getImage(String div) {
