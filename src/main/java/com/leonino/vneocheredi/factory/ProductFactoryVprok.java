@@ -97,6 +97,7 @@ public class ProductFactoryVprok implements ProductFactory {
                 document = Jsoup.connect(URLString)
                         .userAgent("Chrome/4.0.249.0 Safari/532.5")
                         .cookie("region","2")
+                        .maxBodySize(4096000)
                         .get();
             }
             else {

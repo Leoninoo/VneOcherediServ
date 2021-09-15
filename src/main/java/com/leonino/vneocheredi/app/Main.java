@@ -1,10 +1,14 @@
 package com.leonino.vneocheredi.app;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.leonino.vneocheredi.models.Product;
 import com.leonino.vneocheredi.service.TokenGenerator;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 
@@ -17,9 +21,11 @@ public class Main {
     public static void main(String[] args) throws IOException {
         List<Product> products = new ArrayList<>();
 
-        Document document = Jsoup.connect("https://www.vprok.ru/catalog/1303/moloko-syr-yaytsa")
+        Document document = Jsoup.connect("https://www.vprok.ru/catalog/1310/konservy-orehi-sousy")
                 .userAgent("Chrome/4.0.249.0 Safari/532.5")
+                .referrer("http://www.google.com")
                 .cookie("region","2")
+                .maxBodySize(4096000)
                 .get();
 
         Elements elementsName = document.getElementsByClass(
@@ -29,9 +35,23 @@ public class Main {
         Elements elementsIds = document.getElementsByClass("js-catalog-product _additionals xf-catalog__item");
         Elements elementsHrefs = document.getElementsByClass("xf-product__main-link");
 
+        System.out.println();
+        System.out.println();
+        System.out.println();
+
+        System.out.println(elementsName.size());
+        System.out.println(elementsName.size());
+        System.out.println(elementsIds.size());
+        System.out.println(elementsImage.size());
+        System.out.println(elementsHrefs.size());
+
         for (long i = 0; i < elementsPrice.size(); i++) {
             System.out.println(elementsName.get((int) i).text());
         }
+
+        System.out.println();
+        System.out.println();
+        System.out.println();
     }
 
     private static String getImage(String div) {
