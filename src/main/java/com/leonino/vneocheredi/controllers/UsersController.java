@@ -42,11 +42,8 @@ public class UsersController {
 
     @GetMapping("/users")
     @ResponseBody
-    public List<UserDto> getUsers() {
-        return Arrays.asList(
-                new UserDto(0L, "leo"),
-                new UserDto(1L, "and")
-        );
+    public List<User> getUsers() {
+        return usersRepository.findAll();
     }
 
     @PostMapping("/users")
@@ -73,17 +70,17 @@ public class UsersController {
 
             tokenRepository.save(token);
 
-            return "redirect:http://localhost/main.html?token=" + tokenString;
+            return "redirect:https://vne-ocheredi.ru/main?token=" + tokenString;
         }
 
-        return "redirect:http://localhost/login.html";
+        return "redirect:https://vne-ocheredi.ru/login";
     }
 
     @PostMapping("/register")
     public String register(UserForm form) {
         User newUser = User.form(form);
         usersRepository.save(newUser);
-        return "redirect:http://localhost/login.html";
+        return "redirect:https://vne-ocheredi.ru/login";
     }
 
     @GetMapping("/user")

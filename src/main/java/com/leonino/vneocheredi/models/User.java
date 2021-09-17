@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.util.List;
@@ -33,7 +34,7 @@ public class User {
                 .login(form.getLogin())
                 .mail(form.getMail())
                 .name(form.getName())
-                .password(form.getPassword())
+                .password(new BCryptPasswordEncoder().encode(form.getPassword()))
                 .number("+79990637091")
                 .build();
     }

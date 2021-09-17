@@ -19,7 +19,6 @@ import java.net.URL;
 @ComponentScan(basePackages = "com.leonino.vneocheredi")
 @EnableJpaRepositories(basePackages = "com.leonino.vneocheredi.repositories")
 @EntityScan(basePackages = "com.leonino.vneocheredi.models")
-
 public class Application extends WebMvcConfigurerAdapter {
 
     @Override
