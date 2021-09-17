@@ -31,20 +31,16 @@ public class Main {
         Elements elementsName = document.getElementsByClass(
                 "xf-product-title__link js-product__title  xf-product-title__link--additional ");
         Elements elementsPrice = document.getElementsByClass(
-                "xf-price xf-product-cost__current js-product__cost  _highlight");
+                "xf-price__penny js-price-penny");
         Elements elementsImage = document.getElementsByClass("xf-product__picture xf-product-picture");
         Elements elementsIds = document.getElementsByClass("js-catalog-product _additionals xf-catalog__item");
         Elements elementsHrefs = document.getElementsByClass("xf-product__main-link");
 
         for (long i = 0; i < elementsPrice.size(); i++) {
-            System.out.println(getPrice(elementsPrice.get((int) i).toString()));
+            System.out.println(elementsName.get((int) i).text());
+            System.out.println(elementsPrice.get((int) i).text());
+            System.out.println();
         }
-    }
-
-    private static String getPrice(String div) {
-        String[] divElements = div.split("\"");
-
-        return divElements[3] + " руб";
     }
 
     private static String getImage(String div) {
