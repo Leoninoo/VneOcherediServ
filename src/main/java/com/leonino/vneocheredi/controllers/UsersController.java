@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,18 +60,19 @@ public class UsersController {
 
     @PostMapping("/login")
     public String singIn(LoginForm form) {
-        Optional<User> user = usersRepository.findUserByLoginAndPassword(form.getLogin(), form.getPassword());
+        for(User user : usersRepository.findAll()) {
+            if(user.getLogin().equals(form.getLogin())
+            && new BCryptPasswordEncoder().matches(form.getPassword(), user.getPassword())) {
+                String tokenString = TokenGenerator.generate(tokenRepository.findAll());
+                Token token = Token.builder()
+                        .token(tokenString)
+                        .user(user)
+                        .build();
 
-        if(user.isPresent()) {
-            String tokenString = TokenGenerator.generate(tokenRepository.findAll());
-            Token token = Token.builder()
-                    .token(tokenString)
-                    .user(user.get())
-                    .build();
+                tokenRepository.save(token);
 
-            tokenRepository.save(token);
-
-            return "redirect:https://vne-ocheredi.ru/main?token=" + tokenString;
+                return "redirect:https://vne-ocheredi.ru/main?token=" + tokenString;
+            }
         }
 
         return "redirect:https://vne-ocheredi.ru/login";
