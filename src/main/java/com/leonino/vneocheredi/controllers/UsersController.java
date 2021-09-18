@@ -71,7 +71,7 @@ public class UsersController {
 
                 tokenRepository.save(token);
 
-                return "redirect:https://vne-ocheredi.ru/main?token=" + tokenString;
+                return "redirect:https://vne-ocheredi.ru/index?token=" + tokenString;
             }
         }
 
