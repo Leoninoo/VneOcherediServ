@@ -1,26 +1,23 @@
 package com.leonino.vneocheredi.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.leonino.vneocheredi.forms.LoginForm;
 import com.leonino.vneocheredi.forms.UserForm;
 import com.leonino.vneocheredi.models.Token;
 import com.leonino.vneocheredi.models.User;
-import com.leonino.vneocheredi.repositories.ProductsRepository;
 import com.leonino.vneocheredi.repositories.TokenRepository;
 import com.leonino.vneocheredi.repositories.UsersRepository;
 import com.leonino.vneocheredi.service.TokenGenerator;
-import com.leonino.vneocheredi.transfer.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -80,6 +77,15 @@ public class UsersController {
 
     @PostMapping("/register")
     public String register(UserForm form) {
+        if(!form.getPassword().equals(form.getConfirmPassword()))
+            return "redirect:https://vne-ocheredi.ru/login?error=confirm";
+
+        if(usersRepository.findUserByLogin(form.getLogin()).isPresent())
+            return "redirect:https://vne-ocheredi.ru/login?error=user";
+
+        if(usersRepository.findUserByMail(form.getMail()).isPresent())
+            return "redirect:https://vne-ocheredi.ru/login?error=mail";
+
         User newUser = User.form(form);
         usersRepository.save(newUser);
         return "redirect:https://vne-ocheredi.ru/login";
