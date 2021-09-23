@@ -77,7 +77,7 @@ public class UsersController {
 
     @PostMapping("/register")
     public String register(UserForm form) {
-        if(!form.getPassword().equals(form.getConfirmPassword()))
+        if(!form.getPassword().equals(form.getConfirm()))
             return "redirect:https://vne-ocheredi.ru/login?error=confirm";
 
         if(usersRepository.findUserByLogin(form.getLogin()).isPresent())

@@ -6,7 +6,7 @@ import lombok.Data;
 public class UserForm {
     private String login;
     private String password;
-    private String confirmPassword;
+    private String confirm;
     private String name;
     private String mail;
 }
