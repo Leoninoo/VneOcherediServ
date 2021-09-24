@@ -83,9 +83,7 @@ public class UsersController {
     @ResponseBody
     public String singIn(@RequestBody String JSONObject) {
         LoginForm form = new Gson().fromJson(String.valueOf(JSONObject), LoginForm.class);
-
-        System.out.println(singIn(form));
-        return "";
+        return singIn(form);
     }
 
     @PostMapping("/register")
