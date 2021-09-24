@@ -57,22 +57,23 @@ public class UsersController {
 
     @PostMapping("/login")
     public String singIn(LoginForm form) {
-        for(User user : usersRepository.findAll()) {
-            if(user.getLogin().equals(form.getLogin())
-            && new BCryptPasswordEncoder().matches(form.getPassword(), user.getPassword())) {
-                String tokenString = TokenGenerator.generate(tokenRepository.findAll());
-                Token token = Token.builder()
-                        .token(tokenString)
-                        .user(user)
-                        .build();
+//        for(User user : usersRepository.findAll()) {
+//            if(user.getLogin().equals(form.getLogin())
+//            && new BCryptPasswordEncoder().matches(form.getPassword(), user.getPassword())) {
+//                String tokenString = TokenGenerator.generate(tokenRepository.findAll());
+//                Token token = Token.builder()
+//                        .token(tokenString)
+//                        .user(user)
+//                        .build();
+//
+//                tokenRepository.save(token);
+//
+//                return "redirect:https://vne-ocheredi.ru/index?token=" + tokenString;
+//            }
+//        }
 
-                tokenRepository.save(token);
-
-                return "redirect:https://vne-ocheredi.ru/index?token=" + tokenString;
-            }
-        }
-
-        return "redirect:https://vne-ocheredi.ru/login";
+        //return "redirect:https://vne-ocheredi.ru/login";
+        return form.toString();
     }
 
     @PostMapping("/register")
