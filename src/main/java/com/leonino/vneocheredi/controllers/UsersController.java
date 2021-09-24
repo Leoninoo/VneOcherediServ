@@ -1,7 +1,9 @@
 package com.leonino.vneocheredi.controllers;
 
+import com.google.gson.Gson;
 import com.leonino.vneocheredi.forms.LoginForm;
 import com.leonino.vneocheredi.forms.UserForm;
+import com.leonino.vneocheredi.models.Product;
 import com.leonino.vneocheredi.models.Token;
 import com.leonino.vneocheredi.models.User;
 import com.leonino.vneocheredi.repositories.TokenRepository;
@@ -14,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
@@ -56,24 +59,33 @@ public class UsersController {
     }
 
     @PostMapping("/login")
+    @ResponseBody
     public String singIn(LoginForm form) {
-//        for(User user : usersRepository.findAll()) {
-//            if(user.getLogin().equals(form.getLogin())
-//            && new BCryptPasswordEncoder().matches(form.getPassword(), user.getPassword())) {
-//                String tokenString = TokenGenerator.generate(tokenRepository.findAll());
-//                Token token = Token.builder()
-//                        .token(tokenString)
-//                        .user(user)
-//                        .build();
-//
-//                tokenRepository.save(token);
-//
-//                return "redirect:https://vne-ocheredi.ru/index?token=" + tokenString;
-//            }
-//        }
+        for(User user : usersRepository.findAll()) {
+            if(user.getLogin().equals(form.getLogin())
+            && new BCryptPasswordEncoder().matches(form.getPassword(), user.getPassword())) {
+                String tokenString = TokenGenerator.generate(tokenRepository.findAll());
+                Token token = Token.builder()
+                        .token(tokenString)
+                        .user(user)
+                        .build();
 
-        //return "redirect:https://vne-ocheredi.ru/login";
-        return form.getLogin();
+                tokenRepository.save(token);
+
+                return "redirect:https://vne-ocheredi.ru/index?token=" + tokenString;
+            }
+        }
+
+        return "redirect:https://vne-ocheredi.ru/login";
+    }
+
+    @PostMapping("/loginAndroid")
+    @ResponseBody
+    public String singIn(@RequestBody String JSONObject) {
+        LoginForm form = new Gson().fromJson(String.valueOf(JSONObject), LoginForm.class);
+
+        System.out.println(singIn(form));
+        return "";
     }
 
     @PostMapping("/register")
