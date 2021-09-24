@@ -73,7 +73,7 @@ public class UsersController {
 //        }
 
         //return "redirect:https://vne-ocheredi.ru/login";
-        return form.toString();
+        return form.getLogin();
     }
 
     @PostMapping("/register")
