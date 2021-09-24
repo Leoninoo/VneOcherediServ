@@ -83,6 +83,7 @@ public class UsersController {
     public String singIn(@RequestBody String JSONObject) {
         LoginForm form = new Gson().fromJson(String.valueOf(JSONObject), LoginForm.class);
         if(singIn(form).endsWith("login"))
+
             return "login";
         else {
             return singIn(form).split("token=")[1];
