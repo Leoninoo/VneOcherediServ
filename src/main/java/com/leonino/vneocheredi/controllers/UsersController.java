@@ -83,7 +83,6 @@ public class UsersController {
     public String singIn(@RequestBody String JSONObject) {
         LoginForm form = new Gson().fromJson(String.valueOf(JSONObject), LoginForm.class);
         if(singIn(form).endsWith("login"))
-
             return "login";
         else {
             return singIn(form).split("token=")[1];
@@ -104,6 +103,22 @@ public class UsersController {
         User newUser = User.form(form);
         usersRepository.save(newUser);
         return "redirect:https://vne-ocheredi.ru/login";
+    }
+
+    @PostMapping("/registerAndroid")
+    @ResponseBody
+    public String register(@RequestBody String JSONObject) {
+        UserForm form = new Gson().fromJson(String.valueOf(JSONObject), UserForm.class);
+        switch (register(form)) {
+            case "redirect:https://vne-ocheredi.ru/login?error=confirm":
+                return "confirm";
+            case "redirect:https://vne-ocheredi.ru/login?error=user":
+                return "user";
+            case "redirect:https://vne-ocheredi.ru/login?error=mail":
+                return "mail";
+            default:
+                return "login";
+        }
     }
 
     @GetMapping("/user")
