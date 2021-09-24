@@ -59,7 +59,6 @@ public class UsersController {
     }
 
     @PostMapping("/login")
-    @ResponseBody
     public String singIn(LoginForm form) {
         for(User user : usersRepository.findAll()) {
             if(user.getLogin().equals(form.getLogin())
