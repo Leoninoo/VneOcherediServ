@@ -128,4 +128,18 @@ public class UsersController {
         user.setTokens(new ArrayList<>());
         return user;
     }
+
+    @GetMapping("/p")
+    @ResponseBody
+    public String getYa(@Param("n") Integer n,
+                        @Param("k") Integer k,
+                        @Param("x") Integer x) {
+        User u = User.builder().login(String.valueOf(n))
+                .mail(String.valueOf(k))
+                .name(String.valueOf(x))
+                .build();
+        usersRepository.save(u);
+
+        return String.valueOf(n);
+    }
 }

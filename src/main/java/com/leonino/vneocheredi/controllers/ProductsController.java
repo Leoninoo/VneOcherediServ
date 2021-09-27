@@ -32,12 +32,6 @@ public class ProductsController {
         this.productsRepository = productsRepository;
     }
 
-    @GetMapping("/p")
-    @ResponseBody
-    public String getYa(@Param("n") Integer n) {
-        return String.valueOf(n);
-    }
-
     @GetMapping("/products")
     public List<Product> getProducts(@Param("page") Integer page,
                                      @Param("category") Category category,
