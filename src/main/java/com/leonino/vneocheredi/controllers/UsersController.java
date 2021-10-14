@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class UsersController {
     }
 
     @PostMapping("/login")
-    public String singIn(LoginForm form) {
+    public String singIn(LoginForm form, HttpServletRequest request) {
         for(User user : usersRepository.findAll()) {
             if(user.getLogin().equals(form.getLogin())
             && new BCryptPasswordEncoder().matches(form.getPassword(), user.getPassword())) {
@@ -71,21 +72,21 @@ public class UsersController {
 
                 tokenRepository.save(token);
 
-                return "redirect:https://vne-ocheredi.ru/index?token=" + tokenString;
+                return "redirect:" + request.getRequestURL() + "?token=" + tokenString;
             }
         }
 
-        return "redirect:https://vne-ocheredi.ru/login";
+        return "redirect:" + request.getRequestURL() + "?error=login";
     }
 
     @PostMapping("/loginAndroid")
     @ResponseBody
     public String singIn(@RequestBody String JSONObject) {
         LoginForm form = new Gson().fromJson(String.valueOf(JSONObject), LoginForm.class);
-        if(singIn(form).endsWith("login"))
+        if(singIn(form, null).endsWith("login"))
             return "login";
         else {
-            return singIn(form).split("token=")[1];
+            return singIn(form, null).split("token=")[1];
         }
     }
 
