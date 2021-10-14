@@ -23,7 +23,6 @@ public class User {
 
     private String login;
     private String password;
-    private String name;
     private String number;
     private String mail;
 
@@ -34,9 +33,8 @@ public class User {
         return User.builder()
                 .login(form.getLogin())
                 .mail(form.getMail())
-                .name(form.getName())
                 .password(new BCryptPasswordEncoder().encode(form.getPassword()))
-                .number("+79990637091")
+                .number(form.getNumber())
                 .build();
     }
 }

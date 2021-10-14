@@ -55,7 +55,7 @@ public class UsersController {
     @GetMapping("/login")
     @ResponseBody
     public String authentication(@Param("token") String token) {
-        return tokenRepository.getByToken(token).getUser().getName();
+        return tokenRepository.getByToken(token).getUser().getLogin();
     }
 
     @PostMapping("/login")
@@ -100,6 +100,9 @@ public class UsersController {
         if(usersRepository.findUserByMail(form.getMail()).isPresent())
             return "redirect:https://vne-ocheredi.ru/login?error=mail";
 
+        if(usersRepository.findUserByNumber(form.getNumber()).isPresent())
+            return "redirect:https://vne-ocheredi.ru/login?error=number";
+
         User newUser = User.form(form);
         usersRepository.save(newUser);
         return "redirect:https://vne-ocheredi.ru/login";
@@ -116,6 +119,8 @@ public class UsersController {
                 return "user";
             case "redirect:https://vne-ocheredi.ru/login?error=mail":
                 return "mail";
+            case "redirect:https://vne-ocheredi.ru/login?error=number":
+                return "number";
             default:
                 return "login";
         }
@@ -129,17 +134,4 @@ public class UsersController {
         return user;
     }
 
-    @GetMapping("/p")
-    @ResponseBody
-    public String getYa(@Param("n") Integer n,
-                        @Param("k") Integer k,
-                        @Param("x") Integer x) {
-        User u = User.builder().login(String.valueOf(n))
-                .mail(String.valueOf(k))
-                .name(String.valueOf(x))
-                .build();
-        usersRepository.save(u);
-
-        return String.valueOf(n);
-    }
 }

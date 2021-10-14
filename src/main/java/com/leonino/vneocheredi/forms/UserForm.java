@@ -7,6 +7,6 @@ public class UserForm {
     private String login;
     private String password;
     private String confirm;
-    private String name;
+    private String number;
     private String mail;
 }
