@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +62,12 @@ public class UsersController {
 
     @PostMapping("/login")
     public String singIn(LoginForm form, HttpServletRequest request) {
+        String url = "";
+
+        if(request != null) {
+            url = request.getHeader("referer");
+        }
+
         for(User user : usersRepository.findAll()) {
             if(user.getLogin().equals(form.getLogin())
             && new BCryptPasswordEncoder().matches(form.getPassword(), user.getPassword())) {
@@ -72,11 +79,11 @@ public class UsersController {
 
                 tokenRepository.save(token);
 
-                return "redirect:" + request.getRequestURL() + "?token=" + tokenString;
+                return "redirect:" + url + "?token=" + tokenString;
             }
         }
 
-        return "redirect:" + request.getRequestURL() + "?error=login";
+        return "redirect:" + url + "?error=login";
     }
 
     @PostMapping("/loginAndroid")
