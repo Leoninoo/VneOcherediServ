@@ -129,18 +129,17 @@ public class UsersController {
     @ResponseBody
     public String register(@RequestBody String JSONObject) {
         UserForm form = new Gson().fromJson(String.valueOf(JSONObject), UserForm.class);
-        switch (register(form, null)) {
-            case "redirect:https://vne-ocheredi.ru/login?error=confirm":
-                return "confirm";
-            case "redirect:https://vne-ocheredi.ru/login?error=user":
-                return "user";
-            case "redirect:https://vne-ocheredi.ru/login?error=mail":
-                return "mail";
-            case "redirect:https://vne-ocheredi.ru/login?error=number":
-                return "number";
-            default:
-                return "login";
+        String register = register(form, null);
+        if (register.endsWith("confirm")) {
+            return "confirm";
+        } else if (register.endsWith("user")) {
+            return "user";
+        } else if (register.endsWith("mail")) {
+            return "mail";
+        } else if (register.endsWith("number")) {
+            return "number";
         }
+        return "login";
     }
 
     @GetMapping("/user")
