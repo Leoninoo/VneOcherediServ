@@ -11,6 +11,7 @@ import com.leonino.vneocheredi.repositories.UsersRepository;
 import com.leonino.vneocheredi.service.TokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -61,11 +64,11 @@ public class UsersController {
     }
 
     @PostMapping("/login")
-    public String singIn(LoginForm form, HttpServletRequest request) {
+    public String singIn(LoginForm form, @Param("request") String request) {
         String url = "";
 
         if(request != null) {
-            url = request.getHeader("referer");
+            url = request;
         }
 
         for(User user : usersRepository.findAll()) {
@@ -79,11 +82,11 @@ public class UsersController {
 
                 tokenRepository.save(token);
 
-                return "redirect:" + url + "?token=" + tokenString;
+                return "redirect:https://vne-ocheredi.ru/" + url + "?token=" + tokenString;
             }
         }
 
-        return "redirect:" + url + "?error=login";
+        return "https://vne-ocheredi.ru/" + url + "?error=login";
     }
 
     @PostMapping("/loginAndroid")
@@ -98,29 +101,35 @@ public class UsersController {
     }
 
     @PostMapping("/register")
-    public String register(UserForm form) {
+    public String register(UserForm form, @Param("request") String request) {
+        String url = "";
+
+        if(request != null) {
+            url = request;
+        }
+
         if(!form.getPassword().equals(form.getConfirm()))
-            return "redirect:https://vne-ocheredi.ru/login?error=confirm";
+            return "redirect:https://vne-ocheredi.ru/" + url + "?error=confirm";
 
         if(usersRepository.findUserByLogin(form.getLogin()).isPresent())
-            return "redirect:https://vne-ocheredi.ru/login?error=user";
+            return "redirect:https://vne-ocheredi.ru/" + url + "?error=user";
 
         if(usersRepository.findUserByMail(form.getMail()).isPresent())
-            return "redirect:https://vne-ocheredi.ru/login?error=mail";
+            return "redirect:https://vne-ocheredi.ru/" + url + "?error=mail";
 
         if(usersRepository.findUserByNumber(form.getNumber()).isPresent())
-            return "redirect:https://vne-ocheredi.ru/login?error=number";
+            return "redirect:https://vne-ocheredi.ru/" + url + "?error=number";
 
         User newUser = User.form(form);
         usersRepository.save(newUser);
-        return "redirect:https://vne-ocheredi.ru/login";
+        return "redirect:https://vne-ocheredi.ru/" + url;
     }
 
     @PostMapping("/registerAndroid")
     @ResponseBody
     public String register(@RequestBody String JSONObject) {
         UserForm form = new Gson().fromJson(String.valueOf(JSONObject), UserForm.class);
-        switch (register(form)) {
+        switch (register(form, null)) {
             case "redirect:https://vne-ocheredi.ru/login?error=confirm":
                 return "confirm";
             case "redirect:https://vne-ocheredi.ru/login?error=user":
