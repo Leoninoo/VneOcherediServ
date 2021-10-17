@@ -86,7 +86,7 @@ public class UsersController {
             }
         }
 
-        return "https://vne-ocheredi.ru/" + url + "?error=login";
+        return "redirect:https://vne-ocheredi.ru/" + url + "?error=login";
     }
 
     @PostMapping("/loginAndroid")
